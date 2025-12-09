@@ -43,6 +43,7 @@
 </template>
 
 <script setup>
+  
 import { inject, computed } from "vue";
 
 const scales = inject("scales"),
