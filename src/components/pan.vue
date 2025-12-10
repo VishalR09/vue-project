@@ -53,7 +53,7 @@ const zoomEnabled = inject("zoomEnabled"),
   margin = inject("margin");
 
 const bar = 14,
-  minThumb = 24;
+  minThumb = 54;
 
 // Window sizes
 const winX = computed(() => scales.x.domain()[1] - scales.x.domain()[0]);
