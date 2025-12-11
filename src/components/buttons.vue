@@ -17,6 +17,7 @@ const zoomEnabled = inject("zoomEnabled");
   display: flex;
   gap: 8px;
   justify-content: center;
+  margin-bottom: 8px;
 }
 button {
   padding: 6px 10px;
@@ -26,4 +27,5 @@ button.active {
   background: green;
   color: white;
 }
+
 </style>

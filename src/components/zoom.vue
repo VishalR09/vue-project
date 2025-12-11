@@ -1,6 +1,8 @@
 <template>
   <rect
     ref="overlay"
+    class="zoom-overlay"
+    :class="{ 'zoom-enabled': zoomEnabled }"
     :width="width"
     :height="height"
     fill="transparent"
@@ -21,10 +23,9 @@ const zoomEnabled = inject("zoomEnabled");
 const overlay = ref(null);
 let zoomBehavior;
 
-
 function enableZoom() {
   const el = d3.select(overlay.value);
-  el.on(".zoom", null); 
+  el.on(".zoom", null);
 
   const x0 = scales.x.copy();
   const y0 = scales.y.copy();
@@ -39,25 +40,24 @@ function enableZoom() {
   el.style("touch-action", "none").call(zoomBehavior);
 }
 
-
+function disableZoom() {
+  const el = d3.select(overlay.value);
+  el.on(".zoom", null);
+}
 
 watch(zoomEnabled, (active) => {
-  active
-    ? enableZoom()
-    : d3.select(overlay.value).on(".zoom", null);
+  if (active) enableZoom();
+  else disableZoom();
 });
-
 
 onMounted(() => {
   if (zoomEnabled?.value) enableZoom();
 });
 
-
 function reset() {
-  setScales([0, 100], [0, 100]);
-  enableZoom(); 
   d3.select(overlay.value).call(zoomBehavior.transform, d3.zoomIdentity);
 }
 
 defineExpose({ reset });
 </script>
+

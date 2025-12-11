@@ -10,7 +10,6 @@
     stroke-linecap="round"
     class="drag-area"
   />
-
   <line
     :x1="coord.x1"
     :y1="coord.y1"
@@ -34,25 +33,29 @@ const props = defineProps({
   end: { type: Object, required: true },
 });
 
-////////// ---FOR - DRAG ----///////////
 const emit = defineEmits(["drag-segment"]);
 const dragArea = ref(null);
 
 onMounted(() => {
   d3.select(dragArea.value).call(
     d3.drag().on("drag", (ev) => {
-      const dx = scales.x.invert(ev.dx) - scales.x.invert(0);
+      if (!scales?.xMinutes || !scales?.y) return;
+
+      const dxMinutes =
+        scales.xMinutes.invert(ev.dx) - scales.xMinutes.invert(0);
+
       const dy = scales.y.invert(ev.dy) - scales.y.invert(0);
-      emit("drag-segment", { dx, dy });
+
+      emit("drag-segment", { dx: dxMinutes, dy });
     })
   );
 });
-///////////////////////////////////
+
 const coord = computed(() => ({
-  x1: scales.x(props.start.x),
-  y1: scales.y(props.start.y),
-  x2: scales.x(props.end.x),
-  y2: scales.y(props.end.y),
+  x1: scales.x(props.start.time),
+  y1: scales.y(props.start.value),
+  x2: scales.x(props.end.time),
+  y2: scales.y(props.end.value),
 }));
 </script>
 
