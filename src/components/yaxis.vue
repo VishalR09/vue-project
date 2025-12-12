@@ -11,6 +11,8 @@ const axisRef = ref(null);
 
 watchEffect(() => {
   if (!scales?.y || !axisRef.value) return;
-  d3.select(axisRef.value).call(d3.axisLeft(scales.y).tickFormat(v => `${v}°C`));
+  d3.select(axisRef.value).call(
+    d3.axisLeft(scales.y).tickFormat((v) => `${v}°C`)
+  );
 });
 </script>

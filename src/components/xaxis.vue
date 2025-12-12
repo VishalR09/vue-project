@@ -15,8 +15,9 @@ watchEffect(() => {
   if (!axisRef.value || !width) return;
 
   if (!scales.x) {
-    scales.x = d3.scaleTime()
-      .domain([new Date(2025,0,1,0,0), new Date(2025,0,1,10,0)])
+    scales.x = d3
+      .scaleTime()
+      .domain([new Date(2025, 0, 1, 0, 0), new Date(2025, 0, 1, 10, 0)])
       .range([0, width]);
   }
 
@@ -25,9 +26,12 @@ watchEffect(() => {
 
   g.append("g")
     .call(
-      d3.axisBottom(scales.x)
+      d3
+        .axisBottom(scales.x)
         .ticks(d3.timeHour.every(1))
-        .tickFormat(d => `${d3.timeFormat("%a")(d)} ${d3.timeFormat("%H:%M")(d)}`)
+        .tickFormat(
+          (d) => `${d3.timeFormat("%a")(d)} ${d3.timeFormat("%H:%M")(d)}`
+        )
         .tickSize(10)
     )
     .selectAll("text")
@@ -36,11 +40,13 @@ watchEffect(() => {
 
   g.append("g")
     .call(
-      d3.axisBottom(scales.x)
-        .ticks(d3.timeMinute.every(30))
+      d3
+        .axisBottom(scales.x)
+        .ticks(d3.timeMinute.every(15))
         .tickFormat(() => "")
         .tickSize(6)
     )
-    .select(".domain").remove();
+    .select(".domain")
+    .remove();
 });
 </script>

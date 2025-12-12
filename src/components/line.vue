@@ -29,7 +29,7 @@ import * as d3 from "d3";
 const scales = inject("scales");
 
 const props = defineProps({
-  start: { type: Object, required: true },
+  start: { type: Object, required: true }, // { time: Date, value: number }
   end: { type: Object, required: true },
 });
 
@@ -41,8 +41,8 @@ onMounted(() => {
     d3.drag().on("drag", (ev) => {
       if (!scales?.xMinutes || !scales?.y) return;
 
-      const dxMinutes =
-        scales.xMinutes.invert(ev.dx) - scales.xMinutes.invert(0);
+      const dxMinutes = scales.xMinutes.invert(ev.dx) - scales.xMinutes.invert(0);
+
 
       const dy = scales.y.invert(ev.dy) - scales.y.invert(0);
 

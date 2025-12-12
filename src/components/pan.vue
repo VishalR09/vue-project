@@ -1,5 +1,6 @@
 <template>
   <div v-if="zoomEnabled" class="pan-overlay">
+
     <div
       class="scrollbar horizontal"
       :style="{
@@ -18,6 +19,7 @@
         />
       </div>
     </div>
+
 
     <div
       class="scrollbar vertical"
@@ -54,7 +56,9 @@ const fullXMinutes = inject("fullXMinutes");
 const fullYRange = inject("fullYRange");
 
 const bar = 8;
-const minThumb = 20;
+const minThumb = 20; 
+
+
 
 const winX = computed(() => {
   const dom = scales.x.domain();
@@ -64,6 +68,8 @@ const winY = computed(() => {
   const dom = scales.y.domain();
   return dom[1] - dom[0];
 });
+
+
 
 const offsetX = computed({
   get: () => (scales.x.domain()[0].getTime() - fullXStart.getTime()) / 60000,
@@ -82,12 +88,16 @@ const offsetY = computed({
   },
 });
 
+
+
 const thumbW = computed(() =>
   Math.max(minThumb, (winX.value / fullXMinutes) * width)
 );
 const thumbH = computed(() =>
   Math.max(minThumb, (winY.value / fullYRange) * height)
 );
+
+
 
 const thumbLeft = computed(() => {
   const denom = fullXMinutes - winX.value || 1;
@@ -98,6 +108,8 @@ const thumbTop = computed(() => {
   return (1 - offsetY.value / denom) * (height - thumbH.value);
 });
 
+
+
 function onWheelX(e) {
   const step = Math.max(1, winX.value / 10);
   offsetX.value = offsetX.value + (e.deltaY > 0 ? step : -step);
@@ -106,6 +118,8 @@ function onWheelY(e) {
   const step = Math.max(1, winY.value / 10);
   offsetY.value = offsetY.value + (e.deltaY > 0 ? -step : +step);
 }
+
+
 
 function startDrag(axis, e) {
   const startPos = axis === "x" ? e.clientX : e.clientY;
@@ -151,8 +165,8 @@ function startDrag(axis, e) {
   background: #f3f3f3;
   border: 1px solid #ccc;
   border-radius: 8px;
-  left: 380px;
-  top: 108px;
+  left: 320px;
+  top: 105px;
 }
 .thumb {
   position: absolute;
