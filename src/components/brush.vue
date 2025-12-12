@@ -13,7 +13,7 @@ const setScales = inject("setScales");
 const zoomEnabled = inject("zoomEnabled");
 
 const brush = ref(null);
-const MIN_BRUSH_SIZE = 4;
+const MIN_BRUSH_SIZE = 2;
 
 function enableBrush() {
   const g = d3.select(brush.value);
