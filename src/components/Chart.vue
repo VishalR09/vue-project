@@ -47,14 +47,12 @@ import Zoom from "./zoom.vue";
 import Buttons from "./buttons.vue";
 import Pan from "./pan.vue";
 
-
-const width = 500, height = 400;
+const width = 500,
+  height = 400;
 const margin = { top: 20, right: 60, bottom: 80, left: 120 };
-
 
 const fullXStart = new Date(2025, 0, 1, 0, 0);
 const fullXMinutes = 600; // 10 hours
-
 
 const data = [
   { time: new Date(2025, 0, 1, 0, 0), value: 10 },
@@ -66,12 +64,14 @@ const data = [
   { time: new Date(2025, 0, 1, 10, 0), value: 80 },
 ];
 
-
 const scales = reactive({ x: null, xMinutes: null, y: null });
 
 function setScales(xDomDates, yDom) {
   scales.x = d3.scaleTime().domain(xDomDates).range([0, width]);
-  scales.xMinutes = d3.scaleLinear().domain([0, fullXMinutes]).range([0, width]);
+  scales.xMinutes = d3
+    .scaleLinear()
+    .domain([0, fullXMinutes])
+    .range([0, width]);
   scales.y = d3.scaleLinear().domain(yDom).range([height, 0]);
 }
 
@@ -86,20 +86,19 @@ provide("fullXStart", fullXStart);
 provide("fullXMinutes", fullXMinutes);
 provide("fullYRange", 100);
 
-
 const zoomEnabled = ref(false);
 const zoomRef = ref(null);
 const brushRef = ref(null);
 
-function toggleZoom() { zoomEnabled.value = !zoomEnabled.value; }
+function toggleZoom() {
+  zoomEnabled.value = !zoomEnabled.value;
+}
 
 function resetZoom() {
-
   const xExtent = d3.extent(data, (d) => d.time);
   const yExtent = d3.extent(data, (d) => d.value);
   const pad = 0.1 * (yExtent[1] - yExtent[0]);
   setScales(xExtent, [yExtent[0] - pad, yExtent[1] + pad]);
-
 
   if (zoomRef.value && typeof zoomRef.value.reset === "function") {
     zoomRef.value.reset();
@@ -117,24 +116,22 @@ provide("resetZoom", resetZoom);
 provide("zoomRef", zoomRef);
 provide("brushRef", brushRef);
 
-
 const xExtent = d3.extent(data, (d) => d.time);
 const yExtent = d3.extent(data, (d) => d.value);
 const pad = 0.1 * (yExtent[1] - yExtent[0]);
 setScales(xExtent, [yExtent[0] - pad, yExtent[1] + pad]);
 
-
 function MiddleSegments(arr) {
   const segs = [];
   for (let i = 0; i < arr.length - 1; i++) {
-    const s = arr[i], e = arr[i + 1];
+    const s = arr[i],
+      e = arr[i + 1];
     const m = { time: s.time, value: e.value };
     segs.push({ start: s, end: m }, { start: m, end: e });
   }
   return segs;
 }
 const segments = reactive(MiddleSegments(data));
-
 
 function moveSegment(seg, { dx, dy }) {
   if (seg.start.value === seg.end.value) {

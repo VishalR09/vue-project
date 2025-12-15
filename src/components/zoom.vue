@@ -22,11 +22,9 @@ const zoomEnabled = inject("zoomEnabled");
 
 const overlay = ref(null);
 
-/* ensure zoomBehavior is defined so reset() can't fail */
 let zoomBehavior = d3.zoom();
 
 function buildZoomBehavior() {
-  // create copies of the current scales so rescale keeps original references
   const x0 = scales.x.copy();
   const y0 = scales.y.copy();
 

@@ -55,7 +55,7 @@ const fullXStart = inject("fullXStart");
 const fullXMinutes = inject("fullXMinutes");
 const fullYRange = inject("fullYRange");
 
-const bar = 8;
+const bar = 10;
 const minThumb = 20; 
 
 
@@ -170,7 +170,8 @@ function startDrag(axis, e) {
 }
 .thumb {
   position: absolute;
-  background: #999;
+  /* background: #999; */
+  background: rgb(77, 75, 75);
   border-radius: 6px;
   cursor: pointer;
 }

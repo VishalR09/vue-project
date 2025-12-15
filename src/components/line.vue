@@ -41,8 +41,8 @@ onMounted(() => {
     d3.drag().on("drag", (ev) => {
       if (!scales?.xMinutes || !scales?.y) return;
 
-      const dxMinutes = scales.xMinutes.invert(ev.dx) - scales.xMinutes.invert(0);
-
+      const dxMinutes =
+        scales.xMinutes.invert(ev.dx) - scales.xMinutes.invert(0);
 
       const dy = scales.y.invert(ev.dy) - scales.y.invert(0);
 
