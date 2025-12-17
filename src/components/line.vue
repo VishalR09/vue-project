@@ -10,6 +10,7 @@
     stroke-linecap="round"
     class="drag-area"
   />
+
   <line
     :x1="coord.x1"
     :y1="coord.y1"
@@ -29,7 +30,7 @@ import * as d3 from "d3";
 const scales = inject("scales");
 
 const props = defineProps({
-  start: { type: Object, required: true }, // { time: Date, value: number }
+  start: { type: Object, required: true }, // { time: Date, value: Number }
   end: { type: Object, required: true },
 });
 
@@ -37,16 +38,21 @@ const emit = defineEmits(["drag-segment"]);
 const dragArea = ref(null);
 
 onMounted(() => {
-  d3.select(dragArea.value).call(
+  const el = dragArea.value;
+  if (!el) return;
+
+  d3.select(el).call(
     d3.drag().on("drag", (ev) => {
-      if (!scales?.xMinutes || !scales?.y) return;
+      const x0 = scales.x(props.start.time);
+      const y0 = scales.y(props.start.value);
 
-      const dxMinutes =
-        scales.xMinutes.invert(ev.dx) - scales.xMinutes.invert(0);
+      const newTime = scales.x.invert(x0 + ev.dx);
+      const newValue = scales.y.invert(y0 + ev.dy);
 
-      const dy = scales.y.invert(ev.dy) - scales.y.invert(0);
+      const dx = newTime.getTime() - props.start.time.getTime();
+      const dy = newValue - props.start.value;
 
-      emit("drag-segment", { dx: dxMinutes, dy });
+      emit("drag-segment", { dx, dy });
     })
   );
 });
@@ -66,5 +72,8 @@ const coord = computed(() => ({
 }
 .drag-area {
   cursor: grab;
+}
+.drag-area:active {
+  cursor: grabbing;
 }
 </style>
